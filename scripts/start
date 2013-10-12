@@ -1,0 +1,8 @@
+#!/bin/sh
+
+VIDEO=$1;
+FIFO=$2;
+
+# Start the requested videofile
+(omxplayer -o hdmi "$VIDEO" < $FIFO) >/dev/null 2>&1 &
+echo -n > $FIFO
