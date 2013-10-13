@@ -14,7 +14,7 @@ $aConfig['MOVIE_DIR']       = '';
 // The full path to the FIFO
 $aConfig['FIFO']            = '/tmp/omxfifo';
 // The full path to the startscript
-$aConfig['START_SCRIPT']    = dirname(__FILE__) .'/scripts/start';
+$aConfig['START_SCRIPT']    = dirname(dirname(__FILE__)) .'/scripts/start';
 
 if (!is_dir($aConfig['TV_DIR'])) {
     die('The TV dir "'. $aConfig['TV_DIR'] .'" does not exist.');
