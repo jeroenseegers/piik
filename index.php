@@ -5,6 +5,7 @@ require_once 'includes/functions.inc.php';
 
 $sType = 'tv';
 $sPageTitle = '';
+$sNavigation = generate_navigation($_GET);
 
 switch (strtolower($sType)) {
     default:
@@ -17,14 +18,15 @@ switch (strtolower($sType)) {
 require_once 'templates/header.php';
 switch ($aInfo['type']) {
     case 'none':
+        require_once('templates/showlist.php');
+        break;
+
     case 'show':
-        $aShowList = $aInfo['file_list'];
-        require_once('templates/folderlist.php');
+        require_once('templates/seasonlist.php');
         break;
 
     case 'season':
-        $aShowList = $aInfo['file_list'];
-        require_once('templates/filelist.php');
+        require_once('templates/episodelist.php');
         break;
 
     case 'episode':

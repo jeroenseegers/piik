@@ -1,0 +1,16 @@
+body {
+    background-color: #E5E6E0;
+    color: #7A7B75;
+}
+
+.breadcrumb {
+    margin: 10px 0;
+}
+
+.thumbnail-showlist {
+    -webkit-box-shadow: 0px 0px 15px rgba(50, 50, 50, 0.8);
+    -moz-box-shadow:    0px 0px 15px rgba(50, 50, 50, 0.8);
+    box-shadow:         0px 0px 15px rgba(50, 50, 50, 0.8);
+    border: 1px solid #FFF;
+    margin: 10px 0;
+}
