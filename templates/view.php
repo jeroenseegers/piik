@@ -11,7 +11,7 @@
         <span class="glyphicon glyphicon-stop"></span> Stop
     </a>
     <?php elseif($sAction == 'pause') : ?>
-    <a href="<?php echo $aInfo['url']; ?>&action=start" class="btn btn-success btn-lg btn-block">
+    <a href="<?php echo $aInfo['url']; ?>&action=play" class="btn btn-success btn-lg btn-block">
         <span class="glyphicon glyphicon-play"></span> Play
     </a>
     <a href="<?php echo $aInfo['url']; ?>&action=stop" class="btn btn-danger btn-lg btn-block">

@@ -1,8 +1,12 @@
 #!/bin/sh
 
+# If, for some reason, pressing "play" does nothing,
+# run the following command:
+# sudo chmod a+rw /dev/vchiq
+
 VIDEO=$1;
 FIFO=$2;
 
 # Start the requested videofile
-(omxplayer -o hdmi "$VIDEO" < $FIFO) >/dev/null 2>&1 &
-echo -n > $FIFO
+(/usr/bin/omxplayer -o hdmi "$VIDEO" < $FIFO) >/dev/null 2>&1 &
+echo -n . > $FIFO
