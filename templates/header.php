@@ -12,6 +12,11 @@
 
     <div class="container">
 
+        <div>
+        <a href="?type=movie">Movies</a>
+        <a href="?type=tv">TV Shows</a>
+        </div>
+
         <ol class="breadcrumb">
             <?php echo $sNavigation; ?>
         </ol>

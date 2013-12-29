@@ -1,24 +1,34 @@
 <?php
-
+ini_set('display_errors', 'On');
+error_reporting(E_ALL | E_STRICT);
 require_once 'includes/config.inc.php';
 require_once 'includes/functions.inc.php';
 
-$sType = 'tv';
+$sType = isset($_GET['type']) ? $_GET['type'] : 'tv';
 $sPageTitle = '';
 $sNavigation = generate_navigation($_GET);
 
 switch (strtolower($sType)) {
-    default:
+    case 'tv':
         $oShow              = new TVShow();
         $oShow->sBaseDir    = $aConfig['TV_DIR'];
         $aInfo              = $oShow->get_info($_GET);
+        break;
+    case 'movie':
+        $oMovie             = new Movie();
+        $oMovie->sBaseDir   = $aConfig['MOVIE_DIR'];
+        $aInfo              = $oMovie->get_info($_GET);
         break;
 }
 
 require_once 'templates/header.php';
 switch ($aInfo['type']) {
     case 'none':
+        if ($sType == 'tv') {
         require_once('templates/showlist.php');
+        } else {
+        require_once('templates/movielist.php');
+        }
         break;
 
     case 'show':
@@ -30,6 +40,7 @@ switch ($aInfo['type']) {
         break;
 
     case 'episode':
+    case 'movie':
         $sAction = isset($_GET['action']) && !empty($_GET['action']) ? $_GET['action'] : 'idle';
         switch ($sAction) {
             case 'start':

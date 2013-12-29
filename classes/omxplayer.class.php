@@ -20,9 +20,10 @@ class OMXPlayer {
         // Create FIFO
         $this->send_key('q');
         posix_mkfifo($this->_sFifo, 0777);
+        chmod($this->_sFifo, 0777);
 
         // Start playback
-        shell_exec($this->_sStartScript .' '. escapeshellarg($sVideoFile) .' '. escapeshellarg($this->_sFifo));
+        exec($this->_sStartScript .' '. escapeshellarg($sVideoFile) .' '. escapeshellarg($this->_sFifo), $output);
     }
 
     public function send_key($sKey) {
