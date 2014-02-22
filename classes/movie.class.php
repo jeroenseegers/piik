@@ -49,7 +49,15 @@ class Movie {
         if (isset($aValues['movie']) && !empty($aValues['movie']) && is_dir($this->_sBaseDir.$aValues['movie'])) {
             $this->_sType       = 'movie';
             $this->_sMovieTitle  = $aValues['movie'];
-            $this->_sMovieDir    = $this->_sBaseDir . $this->_sMovieTitle .'/'. $this->_sMovieTitle .'.mkv';
+            if (file_exists($this->_sBaseDir . $this->_sMovieTitle .'/'. $this->_sMovieTitle .'.mkv')) {
+                $this->_sMovieDir    = $this->_sBaseDir . $this->_sMovieTitle .'/'. $this->_sMovieTitle .'.mkv';
+            } else if (file_exists($this->_sBaseDir . $this->_sMovieTitle .'/'. $this->_sMovieTitle .'.avi')) {
+                $this->_sMovieDir    = $this->_sBaseDir . $this->_sMovieTitle .'/'. $this->_sMovieTitle .'.avi';
+            } else if (file_exists($this->_sBaseDir . $this->_sMovieTitle .'/'. $this->_sMovieTitle .'.mp4')) {
+                $this->_sMovieDir    = $this->_sBaseDir . $this->_sMovieTitle .'/'. $this->_sMovieTitle .'.mp4';
+            } else {
+                $this->_sMovieDir    = '';
+            }
             $this->_sUrl        = '?type=movie&movie='. urlencode($this->_sMovieTitle);
         }
 
