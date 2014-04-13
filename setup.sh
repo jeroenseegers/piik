@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+LOGFILE="/tmp/piik_install.log"
 INSTALL_DIR="/opt/piik"
 
 # Check if we're using Raspbian
@@ -8,22 +9,22 @@ if [ ! -f /etc/dpkg/origins/raspbian ]; then
     exit 1;
 fi
 
-printf "" > /tmp/piik_install.log;
+printf "" > $LOGFILE;
 
 maybe_install() {
     for APPLICATION in $@; do
-        printf "%s\n" "Checking if installation of $APPLICATION is needed.." >> /tmp/piik_install.log;
+        printf "%s\n" "Checking if installation of $APPLICATION is needed.." >> $LOGFILE;
         if ! hash $APPLICATION 2>/dev/null; then
             printf "%s" "$APPLICATION not found, installing...";
-            if sudo apt-get -y install $APPLICATION >> /tmp/piik_install.log 2>&1; then
+            if sudo apt-get -y install $APPLICATION >> $LOGFILE 2>&1; then
                 printf "%s\n" " Done";
             else
                 printf "%s\n" " Error";
-                printf "%s\n" "See /tmp/piik_install.log for more information";
+                printf "%s\n" "See $LOGFILE for more information";
                 exit 1;
             fi
         fi
-        printf "%s\n\n" "$APPLICATION installed." >> /tmp/piik_install.log;
+        printf "%s\n\n" "$APPLICATION installed." >> $LOGFILE;
     done
 }
 
@@ -32,10 +33,10 @@ maybe_install git nginx php5 php5-fpm
 
 # Install piik
 printf "%s" "Installing piik to $INSTALL_DIR"
-if git clone git@github.com:jeroenseegers/piik.git $INSTALL_DIR >> /tmp/piik_install.log 2>&1; then
+if git clone git@github.com:jeroenseegers/piik.git $INSTALL_DIR >> $LOGFILE 2>&1; then
     printf "%s\n" " Done";
 else
     printf "%s\n" " Error";
-    printf "%s\n" "See /tmp/piik_install.log for more information";
+    printf "%s\n" "See $LOGFILE for more information";
     exit 1;
 fi
