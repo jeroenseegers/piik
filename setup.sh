@@ -45,3 +45,18 @@ else
     printf "%s\n" "See $LOGFILE for more information";
     exit 1;
 fi
+
+# Change ownership of piik folder
+chown -R pi:www-data $INSTALL_DIR;
+
+# Install nginx config file
+cp $INSTALL_DIR/etc/piik.ngx /etc/nginx/sites-available/piik.ngx;
+ln -s /etc/nginx/sites-available/piik.ngx /etc/nginx/sites-enabled/piik.ngx;
+
+# Create logfiles
+mkdir -p /var/opt/piik
+chown -R pi:www-data /var/opt/piik
+
+# Restart PHP-FPM and nginx
+service php5-fpm restart
+service nginx restart
