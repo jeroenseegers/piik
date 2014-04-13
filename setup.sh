@@ -6,26 +6,28 @@ if [[ ! -f /etc/dpkg/origins/raspbian ]]; then
     exit;
 fi
 
+printf "" > /tmp/piik_install.log;
+
 # Check if we need to install git
 hash git 2>/dev/null || {
     printf "%s" "git not found, installing...";
-    sudo apt-get -y install git > /dev/null && printf "%s\n" " Done";
+    sudo apt-get -y install git >> /tmp/piik_install.log && printf "%s\n" " Done";
 }
 
 # Check if we need to install nginx
 hash nginx 2>/dev/null || {
     printf "%s" "nginx not found, installing...";
-    sudo apt-get -y install nginx > /dev/null && printf "%s\n" " Done";
+    sudo apt-get -y install nginx >> /tmp/piik_install.log && printf "%s\n" " Done";
 }
 
 # Check if we need to install php
 hash php 2>/dev/null || {
     printf "%s" "php not found, installing...";
-    sudo apt-get -y install php5 > /dev/null && printf "%s\n" " Done";
+    sudo apt-get -y install php5 >> /tmp/piik_install.log && printf "%s\n" " Done";
 }
 
 # Check if we need to install php-fpm
 hash php5-fpm 2>/dev/null || {
     printf "%s" "php5-fpm not found, installing...";
-    sudo apt-get -y install php5-fpm > /dev/null && printf "%s\n" " Done";
+    sudo apt-get -y install php5-fpm >> /tmp/piik_install.log && printf "%s\n" " Done";
 }
