@@ -3,18 +3,17 @@
 # Check if we're using Raspbian
 if [[ ! -f /etc/dpkg/origins/raspbian ]]; then
     printf "%s\n" "Raspbian OS is needed for Piik to work. Please visit http://www.raspbian.org for more information.";
-    exit;
+    exit 1;
 fi
 
 printf "" > /tmp/piik_install.log;
 
-# Check if we need to install git
 maybe_install() {
-    for application in $@; do
-        printf "%s\n" "Checking if installation of $application is needed.." >> /tmp/piik_install.log;
-        if ! hash $application 2>/dev/null; then
-            printf "%s" "$application not found, installing...";
-            if sudo apt-get -y install $application >> /tmp/piik_install.log 2>&1; then
+    for APPLICATION in $@; do
+        printf "%s\n" "Checking if installation of $APPLICATION is needed.." >> /tmp/piik_install.log;
+        if ! hash $APPLICATION 2>/dev/null; then
+            printf "%s" "$APPLICATION not found, installing...";
+            if sudo apt-get -y install $APPLICATION >> /tmp/piik_install.log 2>&1; then
                 printf "%s\n" " Done";
             else
                 printf "%s\n" " Error";
@@ -22,8 +21,9 @@ maybe_install() {
                 exit 1;
             fi
         fi
-        printf "%s\n\n" "$application installed." >> /tmp/piik_install.log;
+        printf "%s\n\n" "$APPLICATION installed." >> /tmp/piik_install.log;
     done
 }
 
+# Install dependencies
 maybe_install git nginx php5 php5-fpm
