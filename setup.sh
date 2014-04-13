@@ -11,10 +11,18 @@ printf "" > /tmp/piik_install.log;
 # Check if we need to install git
 maybe_install() {
     for application in $@; do
-        hash $application 2>/dev/null || {
+        printf "%s\n" "Checking if installation of $application is needed.." >> /tmp/piik_install.log;
+        if ! hash $application 2>/dev/null; then
             printf "%s" "$application not found, installing...";
-            sudo apt-get -y install $application >> /tmp/piik_install.log && printf "%s\n" " Done";
-        }
+            if sudo apt-get -y install $application >> /tmp/piik_install.log 2>&1; then
+                printf "%s\n" " Done";
+            else
+                printf "%s\n" " Error";
+                printf "%s\n" "See /tmp/piik_install.log for more information";
+                exit 1;
+            fi
+        fi
+        printf "%s\n\n" "$application installed." >> /tmp/piik_install.log;
     done
 }
 
