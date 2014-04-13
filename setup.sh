@@ -21,5 +21,11 @@ hash nginx 2>/dev/null || {
 # Check if we need to install php
 hash php 2>/dev/null || {
     printf "%s" "php not found, installing...";
-    sudo apt-get -y install php5 php5-fpm > /dev/null && printf "%s\n" " Done";
+    sudo apt-get -y install php5 > /dev/null && printf "%s\n" " Done";
+}
+
+# Check if we need to install php-fpm
+hash php5-fpm 2>/dev/null || {
+    printf "%s" "php5-fpm not found, installing...";
+    sudo apt-get -y install php5-fpm > /dev/null && printf "%s\n" " Done";
 }
