@@ -1,0 +1,20 @@
+server {
+    server_name .piik.loc localhost 127.0.0.1;
+    listen      8123;
+    access_log  /var/opt/piik/access.log;
+    error_log   /var/opt/piik/error.log;
+
+    root /opt/piik/;
+
+    location / {
+        index index.php;
+        try_files $uri $uri/ /index.php;
+    }
+
+    location ~ \.php$ {
+        include /etc/nginx/fastcgi_params;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME /opt/piik$fastcgi_script_name;
+    }
+}
