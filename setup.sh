@@ -2,6 +2,7 @@
 
 LOGFILE="/tmp/piik_install.log"
 INSTALL_DIR="/opt/piik"
+REPOSITORY_URL="https://github.com/jeroenseegers/piik.git"
 
 # Check if we're using Raspbian
 if [ ! -f /etc/dpkg/origins/raspbian ]; then
@@ -31,9 +32,13 @@ maybe_install() {
 # Install dependencies
 maybe_install git nginx php5 php5-fpm
 
+# Establish initial github connection
+printf "%s\n" "Checking connection to github" >> $LOGFILE;
+ssh -T git@github.com >> $LOGFILE 2>&1;
+
 # Install piik
 printf "%s" "Installing piik to $INSTALL_DIR"
-if git clone git@github.com:jeroenseegers/piik.git $INSTALL_DIR >> $LOGFILE 2>&1; then
+if git clone $REPOSITORY_URL $INSTALL_DIR >> $LOGFILE 2>&1; then
     printf "%s\n" " Done";
 else
     printf "%s\n" " Error";
