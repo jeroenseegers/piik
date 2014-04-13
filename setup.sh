@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
 
-LOGFILE="/tmp/piik_install.log"
-INSTALL_DIR="/opt/piik"
-REPOSITORY_URL="https://github.com/piik/piik.git"
+LOGFILE="/tmp/piik_install.log";
+INSTALL_DIR="/opt/piik";
+REPOSITORY_URL="https://github.com/piik/piik.git";
+IP_ADDRESS=$(hostname -I | tr -d ' ');
 
 # Check if we're using Raspbian
 if [ ! -f /etc/dpkg/origins/raspbian ]; then
@@ -11,6 +12,10 @@ if [ ! -f /etc/dpkg/origins/raspbian ]; then
 fi
 
 printf "" > $LOGFILE;
+
+# Show introduction text for 5 seconds
+printf "%s\n\n" "This script will install piik. You will be prompted to enter your password for installing the necessary dependencies.";
+sleep 5;
 
 maybe_install() {
     for APPLICATION in $@; do
@@ -36,6 +41,10 @@ maybe_install git nginx php5 php5-fpm
 printf "%s\n" "Checking connection to github" >> $LOGFILE;
 ssh -T git@github.com >> $LOGFILE 2>&1;
 
+# Create piik installation directory
+sudo mkdir $INSTALL_DIR;
+sudo chown -R pi:www-data $INSTALL_DIR;
+
 # Install piik
 printf "%s" "Installing piik to $INSTALL_DIR"
 if git clone $REPOSITORY_URL $INSTALL_DIR >> $LOGFILE 2>&1; then
@@ -46,17 +55,17 @@ else
     exit 1;
 fi
 
-# Change ownership of piik folder
-chown -R pi:www-data $INSTALL_DIR;
-
 # Install nginx config file
-cp $INSTALL_DIR/etc/piik.ngx /etc/nginx/sites-available/piik.ngx;
-ln -s /etc/nginx/sites-available/piik.ngx /etc/nginx/sites-enabled/piik.ngx;
+sudo cp $INSTALL_DIR/etc/piik.ngx /etc/nginx/sites-available/piik.ngx;
+sudo ln -s /etc/nginx/sites-available/piik.ngx /etc/nginx/sites-enabled/piik.ngx;
 
 # Create logfiles
-mkdir -p /var/opt/piik
-chown -R pi:www-data /var/opt/piik
+sudo mkdir -p /var/opt/piik
+sudo chown -R pi:www-data /var/opt/piik
 
 # Restart PHP-FPM and nginx
-service php5-fpm restart
-service nginx restart
+sudo service php5-fpm restart
+sudo service nginx restart
+
+# Show finish text
+printf "\n%s\n\n" "All done! Visit http://$IP_ADDRESS:8123 in your browser to start using piik!";
