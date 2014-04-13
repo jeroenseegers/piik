@@ -2,7 +2,7 @@
 
 LOGFILE="/tmp/piik_install.log"
 INSTALL_DIR="/opt/piik"
-REPOSITORY_URL="https://github.com/jeroenseegers/piik.git"
+REPOSITORY_URL="https://github.com/piik/piik.git"
 
 # Check if we're using Raspbian
 if [ ! -f /etc/dpkg/origins/raspbian ]; then
